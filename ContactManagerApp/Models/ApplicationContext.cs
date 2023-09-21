@@ -11,5 +11,7 @@ namespace ContactManagerApp.Models
         {
             Database.EnsureCreated();
         }
+        public DbSet<User> Users { get; set; }
+
     }
 }

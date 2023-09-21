@@ -1,0 +1,28 @@
+﻿@model ContactManagerApp.Models.User
+
+<h2>User Editing</h2>
+<form asp-action="edit" asp-controller="user" asp-route-id="@Model.Id">
+    <p>
+        <label asp-for="UserName">Name</label><br />
+        <input type="text" asp-for="UserName" />
+    </p>
+    <p>
+        <label asp-for="DateOfBirth">Date of birth</label><br />
+        <input type="date" asp-for="DateOfBirth" />
+    </p>
+    <p>
+        <label asp-for="Married">Married</label><br />
+        <input type="checkbox" asp-for="Married" />
+    </p>
+    <p>
+        <label asp-for="Phone">Phone</label><br />
+        <input type="number" asp-for="Phone" />
+    </p>
+    <p>
+        <label asp-for="Salary">Salary</label><br />
+        <input type="number" asp-for="Salary" />
+    </p>
+    <p>
+        <input type="submit" value="Save" />
+    </p>
+</form>

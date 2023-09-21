@@ -1,15 +1,4 @@
-﻿@*@{
-    ViewData["Title"] = "Home Page";
-}
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-*@
-
-@model IEnumerable<ContactManagerApp.Models.FileModel>
-@{
+﻿@{
     ViewData["Title"] = "Person Information";
 }
 
@@ -18,9 +7,3 @@
     <input type="file" name="uploadedFile" /><br>
     <input type="submit" value="Upload" />
 </form>
-
-<h3>All info</h3>
-@foreach (var f in Model)
-{
-    <p><img src="@Url.Content(f.Path)"></p>
-}

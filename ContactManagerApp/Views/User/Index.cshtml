@@ -1,0 +1,27 @@
+﻿@model IEnumerable<ContactManagerApp.Models.User>
+@{
+    ViewData["Title"] = "Person Information";
+}
+
+<h3>All info</h3>
+<table class="table">
+    <tr><th>Name</th><th>DateOfBirth</th><th>Married</th><th>Phone</th><th>Salary</th></tr>
+@foreach (var user in Model)
+{
+    <tr>
+            <td>@user.UserName</td>
+            <td>@user.DateOfBirth</td>
+            <td>@user.Married</td>
+            <td>@user.Phone</td>
+            <td>@user.Salary</td>
+            <td>
+                <a asp-action="Edit" asp-controller="User" asp-route-id="@user.Id">Edit</a>
+            </td>
+            <td>
+                <form asp-controller="User" asp-action="Delete" method="post" asp-route-id="@user.Id">
+                    <input type="submit" value="Delete" />
+                </form>
+            </td>
+    </tr>
+}
+    </table >

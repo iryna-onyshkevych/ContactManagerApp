@@ -19,8 +19,8 @@ namespace ContactManagerApp.Controllers
 
         public IActionResult Index()
         {
-
-            return View(_context.Files.ToList());
+            
+             return View();
         }
 
         public IActionResult Privacy()
@@ -47,28 +47,22 @@ namespace ContactManagerApp.Controllers
                 }
 
                 string file2 = _appEnvironment.WebRootPath + path;
-
                 var data = GetDataTabletFromCSVFile(file2);
-
                 InsertDataIntoSQLServerUsingSQLBulkCopy(data);
             }
-
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","User");
         }
+
         static void InsertDataIntoSQLServerUsingSQLBulkCopy(DataTable csvFileData)
         {
-
-
             using (SqlConnection dbConnection = new SqlConnection("Data Source = (localdb)\\Local; Initial Catalog = expeditiondb; Integrated Security = SSPI; "))
             {
                 using (SqlBulkCopy s = new SqlBulkCopy(dbConnection))
                 {
-                    //Set the database table name.
-                    s.DestinationTableName = "dbo.UsersData";
+                    s.DestinationTableName = "dbo.Users";
                     dbConnection.Open();
                     s.WriteToServer(csvFileData);
                     dbConnection.Close();
-
                 }
             }
         }
@@ -77,68 +71,36 @@ namespace ContactManagerApp.Controllers
         {
             DataTable csvData = new DataTable();
 
-            csvData.Columns.AddRange(new DataColumn[5] { new DataColumn("Name", typeof(string)),
-            new DataColumn("Date of Birth", typeof(DateTime)),
+            csvData.Columns.AddRange(new DataColumn[6] {new DataColumn("Id", typeof(int)),
+            new DataColumn("UserName", typeof(string)),
+            new DataColumn("DateOfBirth", typeof(DateTime)),
             new DataColumn("Married",typeof(bool)),
             new DataColumn("Phone", typeof(string)),
             new DataColumn("Salary", typeof(decimal))
-});
+            });
 
-
-            string da = System.IO.File.ReadAllText(csv_file_path);
-
-            foreach (string row in da.Split('\n'))
+            try
             {
-                if (!string.IsNullOrEmpty(row))
+                string da = System.IO.File.ReadAllText(csv_file_path);
+
+                foreach (string row in da.Split('\n'))
                 {
-                    csvData.Rows.Add();
-                    int i = 0;
-                    foreach (string cell in row.Split(','))
+                    if (!string.IsNullOrEmpty(row))
                     {
-                        csvData.Rows[csvData.Rows.Count - 1][i] = cell;
-                        i++;
+                        csvData.Rows.Add();
+                        int i = 0;
+                        foreach (string cell in row.Split(','))
+                        {
+                            csvData.Rows[csvData.Rows.Count - 1][i] = cell;
+                            i++;
+                        }
                     }
                 }
             }
-
-
-            //System.IO.File.ReadAllText(csv_file_path);
-            //try
-
-            //{
-            //    using (TextFieldParser csvReader = new TextFieldParser(csv_file_path))
-            //    {
-            //        csvReader.SetDelimiters(new string[] { "," });
-            //        csvReader.HasFieldsEnclosedInQuotes = true;
-            //        string[] colFields = csvReader.ReadFields();
-
-
-
-            //            foreach (string column in colFields)
-            //        {
-            //            DataColumn datecolumn = new DataColumn(column);
-            //            datecolumn.AllowDBNull = true;
-            //            csvData.Columns.Add(datecolumn);
-            //        }
-            //        while (!csvReader.EndOfData)
-            //        {
-            //            string[] fieldData = csvReader.ReadFields();
-            //            //Making empty value as null
-            //            for (int i = 0; i < fieldData.Length; i++)
-            //            {
-            //                if (fieldData[i] == "")
-            //                {
-            //                    fieldData[i] = null;
-            //                }
-            //            }
-            //            csvData.Rows.Add(fieldData);
-            //        }
-            //    }
-
-            //catch (Exception ex)
-            //{
-            //    return null;
-            //}
+            catch (Exception ex)
+            {
+                return null;
+            };
             return csvData;
         }
     }
