@@ -5,24 +5,34 @@
     <p>
         <label asp-for="UserName">Name</label><br />
         <input type="text" asp-for="UserName" />
+        <span asp-validation-for="UserName" class="text-info" />
+
     </p>
     <p>
         <label asp-for="DateOfBirth">Date of birth</label><br />
         <input type="date" asp-for="DateOfBirth" />
+        <span asp-validation-for="DateOfBirth" class="text-info" />
     </p>
     <p>
         <label asp-for="Married">Married</label><br />
         <input type="checkbox" asp-for="Married" />
+        <span asp-validation-for="Married" class="text-info" />
     </p>
     <p>
         <label asp-for="Phone">Phone</label><br />
         <input type="number" asp-for="Phone" />
+        <span asp-validation-for="Phone" class="text-info" />
     </p>
     <p>
         <label asp-for="Salary">Salary</label><br />
         <input type="number" asp-for="Salary" />
+        <span asp-validation-for="Salary" class="text-info" />
     </p>
     <p>
         <input type="submit" value="Save" />
     </p>
 </form>
+@section scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

@@ -2,8 +2,9 @@
     ViewData["Title"] = "Person Information";
 }
 
-<h3>Choose a file for the uploading</h3>
-<form asp-action="AddFile" asp-controller="Home" method="post" enctype="multipart/form-data">
-    <input type="file" name="uploadedFile" /><br>
-    <input type="submit" value="Upload" />
+<h3 style="text-align:center">Choose a file for the uploading</h3>
+
+<form asp-action="AddFile" asp-controller="Home" method="post" enctype="multipart/form-data" style="text-align:center">
+    <input type="file" name="uploadedFile" style="margin:20px"/><br>
+    <input type="submit" value="Upload"   />
 </form>

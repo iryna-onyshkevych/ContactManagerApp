@@ -6,19 +6,15 @@ namespace ContactManagerApp.Controllers
     public class UserController : Controller
     {
         ApplicationContext _context;
-        private IWebHostEnvironment _appEnvironment;
 
-        public UserController(ApplicationContext context, IWebHostEnvironment appEnvironment)
+        public UserController(ApplicationContext context)
         {
             _context = context;
-            _appEnvironment = appEnvironment;
         }
 
         [HttpGet]
-
         public IActionResult Index()
         {
-
             return View(_context.Users.ToList());
         }
 
@@ -27,11 +23,11 @@ namespace ContactManagerApp.Controllers
         {
             if (id != null)
             {
-                User? user =  _context.Users.FirstOrDefault(p => p.Id == id);
+                User? user = _context.Users.FirstOrDefault(p => p.Id == id);
                 if (user != null)
                 {
                     _context.Users.Remove(user);
-                     _context.SaveChangesAsync();
+                    _context.SaveChangesAsync();
                     return RedirectToAction("Index");
                 }
             }

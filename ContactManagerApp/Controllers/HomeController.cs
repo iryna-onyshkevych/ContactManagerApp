@@ -19,12 +19,6 @@ namespace ContactManagerApp.Controllers
 
         public IActionResult Index()
         {
-            
-             return View();
-        }
-
-        public IActionResult Privacy()
-        {
             return View();
         }
 
@@ -50,7 +44,7 @@ namespace ContactManagerApp.Controllers
                 var data = GetDataTabletFromCSVFile(file2);
                 InsertDataIntoSQLServerUsingSQLBulkCopy(data);
             }
-            return RedirectToAction("Index","User");
+            return RedirectToAction("Index", "User");
         }
 
         static void InsertDataIntoSQLServerUsingSQLBulkCopy(DataTable csvFileData)
