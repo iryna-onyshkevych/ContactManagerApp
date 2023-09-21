@@ -40,32 +40,34 @@ namespace ContactManagerApp.Controllers
                     await uploadedFile.CopyToAsync(fileStream);
                 }
 
-                string file2 = _appEnvironment.WebRootPath + path;
-                var data = GetDataTabletFromCSVFile(file2);
+                string filePath = _appEnvironment.WebRootPath + path;
+                var data = GetDataTabletFromCSVFile(filePath);
                 InsertDataIntoSQLServerUsingSQLBulkCopy(data);
             }
+
             return RedirectToAction("Index", "User");
         }
 
-        static void InsertDataIntoSQLServerUsingSQLBulkCopy(DataTable csvFileData)
+        static void InsertDataIntoSQLServerUsingSQLBulkCopy(DataTable fileData)
         {
-            using (SqlConnection dbConnection = new SqlConnection("Data Source = (localdb)\\Local; Initial Catalog = expeditiondb; Integrated Security = SSPI; "))
+
+            using (SqlConnection dbConnection = new SqlConnection("Data Source = ENTER; Initial Catalog = ENTER; Integrated Security = SSPI;"))
             {
-                using (SqlBulkCopy s = new SqlBulkCopy(dbConnection))
+                using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(dbConnection))
                 {
-                    s.DestinationTableName = "dbo.Users";
+                    sqlBulkCopy.DestinationTableName = "dbo.Users";
                     dbConnection.Open();
-                    s.WriteToServer(csvFileData);
+                    sqlBulkCopy.WriteToServer(fileData);
                     dbConnection.Close();
                 }
             }
         }
 
-        private static DataTable GetDataTabletFromCSVFile(string csv_file_path)
+        private static DataTable GetDataTabletFromCSVFile(string filePath)
         {
-            DataTable csvData = new DataTable();
+            DataTable data = new DataTable();
 
-            csvData.Columns.AddRange(new DataColumn[6] {new DataColumn("Id", typeof(int)),
+            data.Columns.AddRange(new DataColumn[6] {new DataColumn("Id", typeof(int)),
             new DataColumn("UserName", typeof(string)),
             new DataColumn("DateOfBirth", typeof(DateTime)),
             new DataColumn("Married",typeof(bool)),
@@ -75,17 +77,17 @@ namespace ContactManagerApp.Controllers
 
             try
             {
-                string da = System.IO.File.ReadAllText(csv_file_path);
+                string text = System.IO.File.ReadAllText(filePath);
 
-                foreach (string row in da.Split('\n'))
+                foreach (string row in text.Split('\n'))
                 {
                     if (!string.IsNullOrEmpty(row))
                     {
-                        csvData.Rows.Add();
+                        data.Rows.Add();
                         int i = 0;
                         foreach (string cell in row.Split(','))
                         {
-                            csvData.Rows[csvData.Rows.Count - 1][i] = cell;
+                            data.Rows[data.Rows.Count - 1][i] = cell;
                             i++;
                         }
                     }
@@ -95,7 +97,7 @@ namespace ContactManagerApp.Controllers
             {
                 return null;
             };
-            return csvData;
+            return data;
         }
     }
 }
