@@ -1,4 +1,14 @@
+using ContactManagerApp.Models;
+using Microsoft.EntityFrameworkCore;
+
+//app.UseAuthentication();
 var builder = WebApplication.CreateBuilder(args);
+//Register services here
+builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(
+builder.Configuration.GetConnectionString("DefaultConnection")
+));
+//builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+//builder.Services.AddAuthentication(...)
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
