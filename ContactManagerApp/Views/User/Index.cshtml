@@ -5,12 +5,12 @@
 
 <h3 style="text-align:center">Users' Information</h3>
 <table class="table">
-    <tr><th>Name</th><th>DateOfBirth</th><th>Married</th><th>Phone</th><th>Salary</th></tr>
+    <tr><th>Name</th><th>Date Of Birth</th><th>Married</th><th>Phone</th><th>Salary</th></tr>
 @foreach (var user in Model)
 {
     <tr>
             <td>@user.UserName</td>
-            <td>@user.DateOfBirth</td>
+            <td>@user.DateOfBirth.ToShortDateString()</td>
             <td>@user.Married</td>
             <td>@user.Phone</td>
             <td>@user.Salary</td>
